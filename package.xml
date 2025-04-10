@@ -1,0 +1,16 @@
+<package format="2">
+  <name>fisheye_csi_cam</name>
+  <version>0.0.1</version>
+  <description>Fisheye CSI Camera Driver</description>
+
+  <maintainer email="dev.kobayashibeatriz@gmail.com">Beatriz Kobayashi</maintainer>
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>rospy</depend>
+  <depend>sensor_msgs</depend>
+  <depend>cv_bridge</depend>
+  <depend>image_transport</depend>
+  <depend>gscam</depend>
+</package>

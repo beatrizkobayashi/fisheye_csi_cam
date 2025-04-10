@@ -1,11 +1,9 @@
 <launch>
-  <!-- Set this to your camera's name -->
-  <arg name="cam_name" value="csi_cam_0" />
-  <arg name="cam_device" value="/dev/video0" />
+  <arg name="cam_name" default="csi_cam_0" />
+  <arg name="cam_device" default="/dev/video0" />
   <arg name="gst_pipeline" value="nvarguscamerasrc ! video/x-raw(memory:NVMM), width=1920, height=1080, framerate=30/1, format=NV12 !
-        nvvidconv flip-method=2 ! video/x-raw, format=BGRx ! videoconvert ! video/x-raw, format=BGR ! appsink" />
+                                  nvvidconv flip-method=2 ! video/x-raw, format=BGRx ! videoconvert ! video/x-raw, format=BGR ! appsink" />
 
-  <!-- Start the GSCAM node -->
   <node pkg="gscam" type="gscam" name="$(arg cam_name)">
     <param name="camera_name" value="$(arg cam_name)" />
     <param name="gscam_config" value="$(arg gst_pipeline)" />
@@ -13,16 +11,14 @@
     <remap from="camera/image_raw" to="$(arg cam_name)/image_raw" />
   </node>
 
-  <!-- Provide rectification -->
-  <node pkg="image_proc" type="image_proc" name="creative_image_proc"
-        ns="$(arg cam_name)" />
-
-  <!-- View the raw and rectified output -->
-  <node pkg="image_view" type="image_view" name="creative_view" >
+  <node pkg="image_view" type="image_view" name="raw_view" >
     <remap from="image" to="/$(arg cam_name)/image_raw" />
   </node>
-    
-  <node pkg="image_view" type="image_view" name="creative_view_rect" >
-    <remap from="image" to="/$(arg cam_name)/image_rect_color" />
+
+  <node pkg="image_view" type="image_view" name="undistorted_view" >
+    <remap from="image" to="/image_undistorted" />
   </node>
+
+  <node pkg="fisheye_csi_cam" type="undistorted_node.py" name="undistort" output="screen" />
+
 </launch>
