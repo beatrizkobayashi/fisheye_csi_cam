@@ -1,0 +1,12 @@
+image_width: 1920
+image_height: 1080
+camera_name: fisheye_cam
+camera_matrix:
+  rows: 3
+  cols: 3
+  data: [458.654, 0, 639.5, 0, 457.296, 359.5, 0, 0, 1]
+distortion_model: fisheye
+distortion_coefficients:
+  rows: 1
+  cols: 4
+  data: [-0.036458, 0.053423, -0.052078, 0.012325]
